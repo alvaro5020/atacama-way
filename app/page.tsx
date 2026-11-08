@@ -1,4 +1,10 @@
 import { ContactForm } from "@/components/contact-form";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -54,6 +60,43 @@ const services: Service[] = [
     description:
       "Integramos flujos de generación de contenido visual, combinando fotografía de estudio premium con motores creativos de IA.",
     icon: Camera,
+  },
+];
+
+const steps = [
+  {
+    title: "Auditoría de Procesos",
+    description: "Identificamos cuellos de botella.",
+  },
+  {
+    title: "Diseño de Arquitectura",
+    description: "Seleccionamos LLMs y flujos en n8n.",
+  },
+  {
+    title: "Despliegue Aislado",
+    description: "Implementación en VPS/Docker.",
+  },
+  {
+    title: "Optimización Continua",
+    description: "Monitoreo y ajustes SLA.",
+  },
+];
+
+const faqs = [
+  {
+    question: "¿Mis datos corporativos se usan para entrenar modelos públicos?",
+    answer:
+      "No. Utilizamos bases de datos vectoriales privadas (RAG) y LLMs configurados con políticas de cero-retención. Tu información nunca sale de tu ecosistema.",
+  },
+  {
+    question: "¿Necesito un equipo técnico para manejar esto?",
+    answer:
+      "En absoluto. Nosotros orquestamos toda la infraestructura en servidores VPS (Docker/n8n) y te entregamos interfaces listas para usar integradas a tu WhatsApp o Instagram.",
+  },
+  {
+    question: "¿Es compatible con mi software actual?",
+    answer:
+      "Sí. Mediante Webhooks y APIs REST podemos conectar los agentes de IA con tu CRM, ERP o bases de datos PostgreSQL existentes.",
   },
 ];
 
@@ -301,6 +344,84 @@ export default function Home() {
               </CardFooter>
             </Card>
           ))}
+        </div>
+      </section>
+
+      {/* Proceso */}
+      <section
+        id="proceso"
+        aria-labelledby="proceso-titulo"
+        className="mx-auto w-full max-w-6xl scroll-mt-24 px-4 py-24 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-2xl text-center">
+          <h2
+            id="proceso-titulo"
+            className="text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl"
+          >
+            Metodología de Integración
+          </h2>
+          <p className="mt-4 text-base text-pretty text-zinc-400 sm:text-lg">
+            De la auditoría al despliegue en 4 semanas.
+          </p>
+        </div>
+
+        <ol className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, i) => (
+            <li
+              key={step.title}
+              className="rounded-2xl bg-zinc-900/20 p-6 ring-1 ring-zinc-800/50"
+            >
+              <span
+                aria-hidden
+                className="block font-mono text-5xl font-bold tracking-tighter text-zinc-800"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-6 text-lg font-semibold text-zinc-50">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                {step.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* FAQ */}
+      <section
+        id="faq"
+        aria-labelledby="faq-titulo"
+        className="w-full scroll-mt-24 border-y border-zinc-900 bg-zinc-950/50 px-4 py-24 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto max-w-3xl">
+          <h2
+            id="faq-titulo"
+            className="text-center text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl"
+          >
+            Preguntas Frecuentes
+          </h2>
+
+          <Accordion
+            type="single"
+            collapsible
+            className="mt-12 border-zinc-800 bg-zinc-900/30"
+          >
+            {faqs.map((faq, i) => (
+              <AccordionItem
+                key={faq.question}
+                value={`faq-${i}`}
+                className="border-zinc-800 data-open:bg-zinc-900/60"
+              >
+                <AccordionTrigger className="px-5 py-5 text-base text-zinc-50 hover:no-underline">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="px-1 text-sm leading-relaxed text-zinc-400 sm:text-base">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
