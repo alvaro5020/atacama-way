@@ -358,7 +358,7 @@ export default function Home() {
             id="proceso-titulo"
             className="text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl"
           >
-            Metodología de Integración
+            Nuestra Metodología
           </h2>
           <p className="mt-4 text-base text-pretty text-zinc-400 sm:text-lg">
             De la auditoría al despliegue en 4 semanas.
