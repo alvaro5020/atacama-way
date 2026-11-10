@@ -24,11 +24,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import {
   Bot,
@@ -362,7 +361,6 @@ export default function Home() {
 
               <CardContent className="flex-1">
                 <div className="mb-6 h-px w-full bg-zinc-800" />
-                <TooltipProvider delayDuration={150}>
                   <ul className="space-y-3">
                     {plan.features.map((feature) => (
                       <li
@@ -377,8 +375,8 @@ export default function Home() {
                         />
                         <span className="flex items-center gap-1.5">
                           {feature.label}
-                          <Tooltip>
-                            <TooltipTrigger asChild>
+                          <Popover>
+                            <PopoverTrigger asChild>
                               <button
                                 type="button"
                                 aria-label={`Más información: ${feature.label}`}
@@ -386,16 +384,19 @@ export default function Home() {
                               >
                                 <Info className="size-3.5" aria-hidden />
                               </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="top">
+                            </PopoverTrigger>
+                            <PopoverContent
+                              side="top"
+                              sideOffset={6}
+                              className="w-auto max-w-[250px] gap-0 rounded-md border border-zinc-800 bg-zinc-900 p-2 text-sm leading-snug text-zinc-50 shadow-md ring-0"
+                            >
                               {feature.tooltip}
-                            </TooltipContent>
-                          </Tooltip>
+                            </PopoverContent>
+                          </Popover>
                         </span>
                       </li>
                     ))}
                   </ul>
-                </TooltipProvider>
 
                 <Sheet>
                   <SheetTrigger asChild>
