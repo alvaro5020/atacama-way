@@ -15,12 +15,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import {
   Bot,
   Camera,
   Check,
   Database,
+  Info,
   Mail,
   MapPin,
   MessageCircle,
@@ -100,53 +115,86 @@ const faqs = [
   },
 ];
 
-type Plan = {
-  name: string;
-  price: string;
-  description: string;
-  features: string[];
-  cta: string;
-  featured?: boolean;
+type PlanFeature = {
+  label: string;
+  tooltip: string;
 };
 
-const plans: Plan[] = [
+type Plan = {
+  title: string;
+  price: string;
+  description: string;
+  features: PlanFeature[];
+  sheetText: string;
+  cta: string;
+  isPopular?: boolean;
+};
+
+const pricingPlans: Plan[] = [
   {
-    name: "Starter",
-    price: "A medida",
-    description: "Ideal para validación de procesos.",
+    title: "Starter IA",
+    description: "Inteligencia artificial para potenciar tu sitio web actual.",
+    price: "Desde $490 (Setup) + $49/mes",
+    isPopular: false,
     features: [
-      "Chatbot IA básico",
-      "Conexión Webhook a WhatsApp/Instagram",
-      "Respuestas automatizadas 24/7",
+      { label: "Auditoría de procesos", tooltip: "Identificamos tus cuellos de botella" },
+      { label: "Agente de IA 24/7", tooltip: "Empleado digital que atiende y resuelve" },
+      { label: "Captura de Leads", tooltip: "Guarda datos de clientes automáticamente" },
+      { label: "Flujos de correo", tooltip: "Seguimiento inmediato al cliente" },
+      { label: "Integración sencilla", tooltip: "Se conecta a tu web actual sin alterarla" },
     ],
-    cta: "Comenzar",
+    sheetText:
+      "Ideal para negocios con web propia que buscan modernizar su atención. Inyectamos un Agente Autónomo que trabaja 24/7. Beneficios: \n- Agente IA: No solo responde; califica leads y toma acciones. \n- Mensualidad incluye: Mantenimiento del servidor VPS, consumo de tokens de inteligencia artificial, captura de datos y optimización continua de las respuestas del agente.",
+    cta: "Potenciar mi web",
   },
   {
-    name: "Business",
-    price: "A medida",
-    description: "Automatización integral para PyMEs.",
+    title: "Business Full-Stack",
+    description: "El ecosistema digital completo: Web de alta velocidad + IA integrada.",
+    price: "Desde $990 (Setup) + $89/mes",
+    isPopular: true,
     features: [
-      "Todo lo del Starter",
-      "RAG Vector Database con PDFs corporativos",
-      "Flujos avanzados en n8n",
-      "Base de datos PostgreSQL",
+      { label: "Landing Page Next.js", tooltip: "Arquitectura ultra-rápida y SEO optimizado" },
+      { label: "UI/UX Premium", tooltip: "Estética B2B que transmite confianza" },
+      { label: "Despliegue en Vercel", tooltip: "Servidores globales anti-caídas" },
+      { label: "Agente IA Nativo", tooltip: "Asistente fusionado en el código base" },
+      { label: "Soporte y Mantenimiento", tooltip: "Línea directa con nuestro equipo" },
     ],
-    cta: "Agendar Demo",
-    featured: true,
+    sheetText:
+      "El ecosistema definitivo (Metodología Atacama Way). Reemplazamos tu web antigua por tecnología de punta para maximizar conversiones. Beneficios: \n- Infraestructura: Web en Next.js alojada en Vercel para velocidad instantánea. \n- Agente Nativo: El empleado digital nace integrado con tu web, logrando tiempos de respuesta ultrarrápidos. \n- Mensualidad incluye: Hosting web en Vercel, servidores VPS para la automatización, consumo ilimitado de tokens IA y soporte técnico prioritario.",
+    cta: "Construir mi ecosistema",
   },
   {
-    name: "Enterprise",
-    price: "A medida",
-    description: "Infraestructura dedicada y LLMs a medida.",
+    title: "Enterprise",
+    description: "Soluciones a medida, automatización n8n y flujos complejos.",
+    price: "A medida (Setup) + Desde $199/mes",
+    isPopular: false,
     features: [
-      "Todo lo de Business",
-      "VPS Dedicado (Hostinger)",
-      "Entorno Docker aislado",
-      "Soporte prioritario SLA",
+      { label: "Web Multi-página", tooltip: "Portal corporativo escalable" },
+      { label: "Automatización n8n", tooltip: "Flujos que reemplazan trabajo manual" },
+      { label: "Integración PostgreSQL", tooltip: "Gestión de datos robusta" },
+      { label: "Conexión CRM", tooltip: "Sincronización con tus ventas" },
+      { label: "Arquitectura Escalable", tooltip: "Preparado para alto tráfico" },
     ],
-    cta: "Contactar Ventas",
+    sheetText:
+      "Infraestructura B2B corporativa. Construimos flujos de automatización complejos usando n8n en nuestro propio VPS. Beneficios: \n- Resolutividad Total: El sistema hace el trabajo administrativo por ti, conectando tu web, correos y CRM de forma transparente. \n- Mensualidad incluye: Administración de base de datos PostgreSQL, gestión de servidores dedicados, mantenimiento de flujos n8n y soporte para escalabilidad.",
+    cta: "Agendar consultoría",
   },
 ];
+
+/** Divide el texto del Sheet en intro + lista de beneficios ("Etiqueta: detalle"). */
+function parseSheetText(text: string) {
+  const [intro, ...rest] = text.split("\n").map((line) => line.trim());
+  const benefits = rest
+    .filter(Boolean)
+    .map((line) => line.replace(/^-\s*/, ""))
+    .map((line) => {
+      const idx = line.indexOf(":");
+      return idx === -1
+        ? { label: "", detail: line }
+        : { label: line.slice(0, idx).trim(), detail: line.slice(idx + 1).trim() };
+    });
+  return { intro, benefits };
+}
 
 export default function Home() {
   return (
@@ -287,22 +335,22 @@ export default function Home() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
-          {plans.map((plan) => (
+          {pricingPlans.map((plan) => (
             <Card
-              key={plan.name}
+              key={plan.title}
               className={cn(
                 "h-full rounded-2xl text-left ring-1",
-                plan.featured
+                plan.isPopular
                   ? "bg-zinc-900 shadow-2xl shadow-indigo-950/40 ring-zinc-500"
                   : "bg-zinc-950 ring-zinc-800"
               )}
             >
               <CardHeader className="gap-3">
                 <div className="flex h-5 items-center">
-                  {plan.featured && <Badge>Más Popular</Badge>}
+                  {plan.isPopular && <Badge>Más Popular</Badge>}
                 </div>
                 <CardTitle className="text-lg font-semibold text-zinc-50">
-                  {plan.name}
+                  {plan.title}
                 </CardTitle>
                 <p className="text-3xl font-bold tracking-tight text-zinc-50">
                   {plan.price}
@@ -314,29 +362,88 @@ export default function Home() {
 
               <CardContent className="flex-1">
                 <div className="mb-6 h-px w-full bg-zinc-800" />
-                <ul className="space-y-3">
-                  {plan.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-start gap-3 text-sm text-zinc-300"
+                <TooltipProvider delayDuration={150}>
+                  <ul className="space-y-3">
+                    {plan.features.map((feature) => (
+                      <li
+                        key={feature.label}
+                        className="flex items-start gap-3 text-sm text-zinc-300"
+                      >
+                        <Check
+                          className={cn(
+                            "mt-0.5 size-4 shrink-0",
+                            plan.isPopular ? "text-zinc-50" : "text-zinc-500"
+                          )}
+                        />
+                        <span className="flex items-center gap-1.5">
+                          {feature.label}
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                aria-label={`Más información: ${feature.label}`}
+                                className="inline-flex rounded-full text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500"
+                              >
+                                <Info className="size-3.5" aria-hidden />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top">
+                              {feature.tooltip}
+                            </TooltipContent>
+                          </Tooltip>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </TooltipProvider>
+
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <button
+                      type="button"
+                      className="mt-6 text-sm font-medium text-zinc-400 underline-offset-4 transition-colors hover:text-zinc-50 hover:underline focus-visible:text-zinc-50 focus-visible:underline focus-visible:outline-none"
                     >
-                      <Check
-                        className={cn(
-                          "mt-0.5 size-4 shrink-0",
-                          plan.featured ? "text-zinc-50" : "text-zinc-500"
-                        )}
-                      />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                      Ver desglose completo →
+                    </button>
+                  </SheetTrigger>
+                  <SheetContent className="overflow-y-auto">
+                    {(() => {
+                      const { intro, benefits } = parseSheetText(plan.sheetText);
+                      return (
+                        <>
+                          <SheetHeader>
+                            <SheetTitle className="text-xl">{plan.title}</SheetTitle>
+                            <SheetDescription>{plan.price}</SheetDescription>
+                          </SheetHeader>
+                          <div className="space-y-5 px-4 pb-6 text-sm leading-relaxed">
+                            <p className="text-muted-foreground">{intro}</p>
+                            <ul className="space-y-4">
+                              {benefits.map((benefit) => (
+                                <li key={benefit.label || benefit.detail}>
+                                  {benefit.label && (
+                                    <p className="font-semibold text-popover-foreground">
+                                      {benefit.label}
+                                    </p>
+                                  )}
+                                  <p className="mt-1 text-muted-foreground">
+                                    {benefit.detail}
+                                  </p>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </SheetContent>
+                </Sheet>
               </CardContent>
 
               <CardFooter>
                 <Button
                   asChild
                   size="lg"
-                  variant={plan.featured ? "default" : "outline"}
+                  variant={plan.isPopular ? "default" : "outline"}
                   className="w-full"
                 >
                   <a href="#contacto">{plan.cta}</a>
