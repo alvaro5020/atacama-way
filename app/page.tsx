@@ -93,19 +93,32 @@ const steps = [
 
 const faqs = [
   {
-    question: "¿Mis datos corporativos se usan para entrenar modelos públicos?",
+    question:
+      "Mi negocio es de servicios profesionales (salud, leyes, inmobiliario). ¿Realmente me sirve un Agente IA?",
     answer:
-      "No. Utilizamos bases de datos vectoriales privadas (RAG) y LLMs configurados con políticas de cero-retención. Tu información nunca sale de tu ecosistema.",
+      "Absolutamente. A diferencia de las tiendas online, en los servicios profesionales tus clientes tienen dudas específicas antes de agendar o comprar. Tu Agente IA actúa como un recepcionista experto 24/7: pre-califica casos legales, explica tratamientos dentales, filtra interesados en propiedades y agenda reuniones automáticamente mientras tú duermes.",
   },
   {
-    question: "¿Necesito un equipo técnico para manejar esto?",
+    question:
+      "¿El Agente realmente entenderá las necesidades de mi negocio o dará respuestas genéricas?",
     answer:
-      "En absoluto. Nosotros orquestamos toda la infraestructura en servidores VPS (Docker/n8n) y te entregamos interfaces listas para usar integradas a tu WhatsApp o Instagram.",
+      "Entenderá tu negocio a la perfección. No usamos “bots” genéricos de respuestas pre-armadas. Aplicamos la Metodología Atacama Way: entrenamos el cerebro de tu Agente alimentándolo con tus propios documentos, listados de precios, manuales y el tono de voz exacto de tu marca. Hablará como tu mejor vendedor.",
   },
   {
-    question: "¿Es compatible con mi software actual?",
+    question: "¿Tengo que rehacer mi página web o cambiar mi forma de trabajar?",
     answer:
-      "Sí. Mediante Webhooks y APIs REST podemos conectar los agentes de IA con tu CRM, ERP o bases de datos PostgreSQL existentes.",
+      "No. Sabemos que tu operación no puede detenerse. Si eliges nuestro Plan Starter, inyectamos el Agente directamente en tu sitio web actual de forma invisible y segura. No rompemos nada de tu infraestructura y tus correos siguen funcionando igual; solo sumas un empleado digital a tu equipo.",
+  },
+  {
+    question:
+      "¿Qué pasa si un cliente hace una pregunta muy compleja que la IA no conoce?",
+    answer:
+      "Tu reputación está blindada. Programamos a nuestros Agentes con un límite estricto de “cero alucinaciones”. Si el prospecto hace una pregunta fuera de los manuales, el Agente no inventa respuestas. Inmediatamente captura el teléfono del cliente, le informa que un especialista lo contactará, y te envía una alerta directa a tu equipo de ventas.",
+  },
+  {
+    question: "¿Por qué se cobra una mensualidad si el Agente ya fue instalado?",
+    answer:
+      "Tu Agente es un trabajador activo, no un software estático. La mensualidad (Retainer) cubre su consumo continuo de “razonamiento” (Tokens de IA), el mantenimiento de nuestros servidores privados que garantizan que nunca se caiga, y la optimización constante de sus flujos de datos hacia tu bandeja de entrada o CRM.",
   },
 ];
 
