@@ -77,6 +77,8 @@ const services: Service[] = [
   },
 ];
 
+// Usado por la sección "Nuestra Metodología" (actualmente comentada en el JSX).
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const steps = [
   {
     title: "Auditoría de Procesos",
@@ -455,7 +457,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Proceso */}
+      {/* Proceso — oculto temporalmente por estrategia de conversión (enfoque en planes). Descomentar para restaurar. */}
+      {/*
       <section
         id="proceso"
         aria-labelledby="proceso-titulo"
@@ -495,6 +498,7 @@ export default function Home() {
           ))}
         </ol>
       </section>
+      */}
 
       {/* FAQ */}
       <section
