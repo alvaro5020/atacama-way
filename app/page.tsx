@@ -31,49 +31,42 @@ import {
 import { cn } from "@/lib/utils";
 import {
   Bot,
-  Camera,
   Check,
-  Database,
+  Clock,
   Info,
   Mail,
   MapPin,
   MessageCircle,
   Mountain,
   Play,
-  Workflow,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 
-type Service = {
+type AutomationStep = {
   title: string;
   description: string;
   icon: LucideIcon;
 };
 
-const services: Service[] = [
+const automationSteps: AutomationStep[] = [
   {
-    title: "Agentes IA Multicanal",
+    title: "1. El cliente pregunta (24/7)",
     description:
-      "Conectamos flujos conversacionales inteligentes a tus Webhooks de WhatsApp e Instagram Business.",
+      "Un prospecto visita tu web un domingo a las 11:00 PM o un día feriado buscando información sobre tus servicios.",
+    icon: Clock,
+  },
+  {
+    title: "2. La IA resuelve al instante",
+    description:
+      "Tu Agente Inteligente le responde en segundos, resuelve sus dudas, califica su nivel de interés y captura sus datos de contacto.",
     icon: Bot,
   },
   {
-    title: "Sistemas RAG (Vector Databases)",
+    title: "3. Tú cierras la venta",
     description:
-      "Entrenamos asistentes virtuales con el conocimiento de tu empresa, leyendo manuales y catálogos en PDF.",
-    icon: Database,
-  },
-  {
-    title: "Orquestación con n8n",
-    description:
-      "Desplegamos automatizaciones backend en servidores VPS aislados (Docker/PostgreSQL) para conectar tus herramientas.",
-    icon: Workflow,
-  },
-  {
-    title: "Producción Audiovisual & IA",
-    description:
-      "Integramos flujos de generación de contenido visual, combinando fotografía de estudio premium con motores creativos de IA.",
-    icon: Camera,
+      "A la mañana siguiente, tu equipo encuentra al cliente calificado directamente en su bandeja de entrada, listo para firmar.",
+    icon: TrendingUp,
   },
 ];
 
@@ -286,35 +279,37 @@ export default function Home() {
             id="servicios-titulo"
             className="text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl"
           >
-            Ecosistema de Automatización
+            Tu negocio en Piloto Automático
           </h2>
           <p className="mt-4 text-base text-pretty text-zinc-400 sm:text-lg">
-            Infraestructura tecnológica que trabaja por ti 24/7.
+            Así es como nuestra tecnología transforma tus visitas en ventas
+            reales, sin que tengas que mover un dedo.
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2">
-          {services.map(({ title, description, icon: Icon }) => (
-            <Card
-              key={title}
-              className="rounded-2xl bg-zinc-900/50 text-left ring-1 ring-zinc-800 transition-colors hover:ring-zinc-700"
-            >
-              <CardHeader className="gap-4">
-                <Icon
-                  aria-hidden
-                  strokeWidth={1.5}
-                  className="h-10 w-10 text-zinc-50"
-                />
-                <CardTitle className="text-lg font-semibold text-zinc-50">
-                  {title}
-                </CardTitle>
-                <CardDescription className="text-sm leading-relaxed text-zinc-400 sm:text-base">
-                  {description}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+        <ol className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {automationSteps.map(({ title, description, icon: Icon }) => (
+            <li key={title} className="flex">
+              <Card className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 text-left ring-0 transition-colors hover:border-zinc-700">
+                <CardHeader className="gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-950">
+                    <Icon
+                      aria-hidden
+                      strokeWidth={1.5}
+                      className="h-6 w-6 text-zinc-50"
+                    />
+                  </div>
+                  <CardTitle className="text-lg font-semibold text-zinc-50">
+                    {title}
+                  </CardTitle>
+                  <CardDescription className="text-sm leading-relaxed text-zinc-400 sm:text-base">
+                    {description}
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </li>
           ))}
-        </div>
+        </ol>
       </section>
 
       {/* Planes y Precios */}
