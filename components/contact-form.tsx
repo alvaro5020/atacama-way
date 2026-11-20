@@ -55,6 +55,7 @@ export function ContactForm() {
           name="nombre"
           autoComplete="name"
           placeholder="Tu nombre"
+          maxLength={100}
           required
           className="h-10"
         />
@@ -69,6 +70,7 @@ export function ContactForm() {
           type="email"
           autoComplete="email"
           placeholder="tu@empresa.com"
+          maxLength={150}
           required
           className="h-10"
         />
@@ -81,6 +83,7 @@ export function ContactForm() {
           id="mensaje"
           name="mensaje"
           rows={5}
+          maxLength={1500}
           placeholder="Ej. atención por WhatsApp, seguimiento de leads, facturación…"
           required
           className="min-h-32"
