@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,19 @@ export function ContactForm() {
 
     const form = e.currentTarget;
     setStatus("sending");
+
+    // Metadatos de consentimiento (Ley N° 21.719) para enviar al Webhook de n8n.
+    // El checkbox `consentimiento` es `required`, así que aquí siempre está aceptado.
+    // const consent = {
+    //   policyVersion: "1.0",
+    //   consentAcceptedAt: new Date().toISOString(),
+    // };
+    // const data = Object.fromEntries(new FormData(form));
+    // await fetch(N8N_WEBHOOK_URL, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ ...data, ...consent }),
+    // });
 
     timers.current.push(
       setTimeout(() => {
@@ -88,6 +102,29 @@ export function ContactForm() {
           required
           className="min-h-32"
         />
+      </div>
+      <div className="flex items-start gap-3">
+        <input
+          id="consentimiento"
+          name="consentimiento"
+          type="checkbox"
+          required
+          className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-zinc-700 bg-zinc-900 accent-zinc-50 focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 focus-visible:outline-none"
+        />
+        <label
+          htmlFor="consentimiento"
+          className="text-sm leading-relaxed text-zinc-400"
+        >
+          He leído y acepto la{" "}
+          <Link
+            href="/privacidad"
+            target="_blank"
+            className="font-medium text-zinc-200 underline underline-offset-4 transition-colors hover:text-zinc-50"
+          >
+            Política de Privacidad
+          </Link>{" "}
+          para el tratamiento de mis datos conforme a la Ley N° 21.719.
+        </label>
       </div>
       <Button
         type="submit"

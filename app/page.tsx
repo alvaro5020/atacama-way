@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ContactForm } from "@/components/contact-form";
 import {
   Accordion,
@@ -569,15 +571,15 @@ export default function Home() {
               <li className="flex items-center gap-3">
                 <Mail aria-hidden className="h-5 w-5 shrink-0 text-zinc-500" />
                 <a
-                  href="mailto:contacto@tuagencia.com"
+                  href="mailto:contacto@atacamaway.com"
                   className="transition-colors hover:text-zinc-50"
                 >
-                  contacto@tuagencia.com
+                  contacto@atacamaway.com
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin aria-hidden className="h-5 w-5 shrink-0 text-zinc-500" />
-                <span>Operaciones en París, Francia y Chile.</span>
+                <span>Operación en Chile.</span>
               </li>
             </ul>
 
@@ -603,6 +605,14 @@ export default function Home() {
       <footer className="border-t border-zinc-800 px-4 py-8">
         <p className="text-center text-sm text-zinc-500">
           © 2026 Atacama Way. Todos los derechos reservados.
+        </p>
+        <p className="mt-2 text-center text-sm">
+          <Link
+            href="/privacidad"
+            className="text-zinc-500 transition-colors hover:text-zinc-300"
+          >
+            Política de Privacidad
+          </Link>
         </p>
       </footer>
 
